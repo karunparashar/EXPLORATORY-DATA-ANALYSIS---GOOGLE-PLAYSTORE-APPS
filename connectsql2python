@@ -1,0 +1,30 @@
+import pandas as pd  
+import sqlite3  
+conn = sqlite3.connect("googleappsdata1.db")  
+df = pd.read_sql_query("select * from trending_rat_rev_apps limit 5;", conn)  
+df 
+
+import matplotlib as mp
+import seaborn as sns
+from pylab import rcParams
+rcParams['figure.figsize'] = 11.7,8.27
+g = sns.kdeplot(df.Rating, color="Red", shade = True)
+g.set_xlabel("Rating")
+g.set_ylabel("Frequency")
+plt.title('Distribution of Rating',size = 20)
+create table cat_dist as select category, count(*) from trending_rat_rev_apps group by category;
+# Data to plot
+labels =df1['Type'].value_counts(sort = True).index
+sizes = df1['Type'].value_counts(sort = True)
+
+
+colors = ["palegreen","orangered"]
+explode = (0.1,0)  # explode 1st slice
+ 
+rcParams['figure.figsize'] = 8,8
+# Plot
+plt.pie(sizes, explode=explode, labels=labels, colors=colors,
+        autopct='%1.1f%%', shadow=True, startangle=270,)
+
+plt.title('Percent of Free App in store',size = 20)
+plt.show()

@@ -1,0 +1,18 @@
+
+df = pd.read_csv(r'Downloads/project_description/googleplaystore.csv')
+head_pandas = list(df.columns)
+df_prac = df
+inst = df_prac['Installs']
+inst_u = inst.unique()
+install_free = df_prac[df_prac["Installs"]=="Free"]
+df_prac = df_prac.drop(install_free.index)
+df_prac = df_prac.drop(["Current Ver","Android Ver"],axis = 1)
+list(df_prac.columns)
+len(df_prac["Installs"].unique())
+rat_mean = df_prac.Rating.mean(skipna=True)
+df_prac['Rating'] = df_prac['Rating'].replace(np.nan, rat_mean)
+df_prac['Last Updated']=df_prac['Last Updated'].apply(
+    lambda x :pd.to_datetime(x).strftime('%m/%d/%Y'))
+
+df_prac["Year"] = pd.DatetimeIndex(df_prac["Last Updated"]).year
+df_prac["Month"] = pd.DatetimeIndex(df_prac["Last Updated"]).month
